@@ -48,9 +48,11 @@ public class FetchSSMParameter {
         try {
             GetParameterRequest parameterRequest = GetParameterRequest.builder()
                 .name(paraName)
+                .withDecryption(true)
                 .build();
 
             GetParameterResponse parameterResponse = ssmClient.getParameter(parameterRequest);
+                        
             System.out.println("The parameter value is "+parameterResponse.parameter().value());
 
         } catch (SsmException e) {
