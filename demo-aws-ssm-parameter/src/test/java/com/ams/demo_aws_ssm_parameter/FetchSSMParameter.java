@@ -7,8 +7,6 @@ import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
 import software.amazon.awssdk.services.ssm.model.SsmException;
 
-
-
 /**
  * To run this Java V2 code example, ensure that you have setup your development environment, including your credentials.
  *
@@ -22,16 +20,20 @@ public class FetchSSMParameter {
 
         final String USAGE = "\n" +
                 "Usage:\n" +
-                "    GetParameter <paraName>\n\n" +
+                "    FetchSSMParameter <paraName>\n\n" +
                 "Where:\n" +
                 "    paraName - the name of the parameter.\n";
 
+      
         if (args.length != 1) {
             System.out.println(USAGE);
             System.exit(1);
         }
+        
 
         String paraName = args[0];
+        
+       // String paraName = "/ams/dburl";
         Region region = Region.US_EAST_1;
         SsmClient ssmClient = SsmClient.builder()
                 .region(region)
