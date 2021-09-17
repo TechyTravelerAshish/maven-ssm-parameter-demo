@@ -4,7 +4,7 @@ public class MainClass
 {
 	public static String dburl = null;
 	
-	public static void main(String[] args) 
+	public static void main() 
 	{
 		dburl = FetchSSMParameter.Fetch_SSM_Parameter("/my-app/dev/db-url");
 		
