@@ -10,25 +10,7 @@ public class FetchSSMParameter
 {
 	static String param_value = null;
 	static String param_value1 = null;
-	
-	/*
-	public static String dburl = null;
-	
-	public static void main(String[] args) 
-	{
-		dburl = FetchSSMParameter.Fetch_SSM_Parameter("/my-app/dev/db-url");
-		
-		System.out.println("dburl :- " + dburl);
-		
-		
-		
-		
-    }
 
-	*/
-	
-	
-	
     public static String Fetch_SSM_Parameter (String param_name) 
     {
         final String USAGE = "\n" +
@@ -56,9 +38,10 @@ public class FetchSSMParameter
         return param_value;
     }
 
-    public static String getParaValue (SsmClient ssmClient, String paraName) {
-
-        try {
+    public static String getParaValue (SsmClient ssmClient, String paraName) 
+    {
+        try 
+        {
             GetParameterRequest parameterRequest = GetParameterRequest.builder()
                 .name(paraName)
                 .withDecryption(true)
@@ -66,19 +49,21 @@ public class FetchSSMParameter
 
             GetParameterResponse parameterResponse = ssmClient.getParameter(parameterRequest);
             
-            try {
+            try 
+            {
             	param_value1 = parameterResponse.parameter().value();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			} 
+            catch (Exception e) 
+            {				
 				e.printStackTrace();
 			}
                         
-            //System.out.println("The parameter value fetched from SSM Parameter Store is :- " + parameterResponse.parameter().value());
             System.out.println("The parameter value fetched from SSM Parameter Store is :- " + param_value1);
-
-        } catch (SsmException e) {
-        System.err.println(e.getMessage());
-        System.exit(1);
+        } 
+        catch (SsmException e) 
+        {
+        	System.err.println(e.getMessage());
+        	System.exit(1);
         }
 		return param_value1;
    }
