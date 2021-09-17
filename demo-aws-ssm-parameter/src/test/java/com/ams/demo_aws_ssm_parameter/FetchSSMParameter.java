@@ -37,7 +37,7 @@ public class FetchSSMParameter
                 "Where:\n" +
                 "    paraName - the name of the parameter that you want to fetch from SSM parameter store.\n";
       
-        if (param_name.length() != 1) 
+        if (param_name.length() == 0) 
         {
             System.out.println(USAGE);
             System.exit(1);
