@@ -1,49 +1,44 @@
 package com.ams.demo_aws_ssm_parameter;
 
-
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
 import software.amazon.awssdk.services.ssm.model.SsmException;
 
-/**
- * To run this Java V2 code example, ensure that you have setup your development environment, including your credentials.
- *
- * For information, see this documentation topic:
- *
- * https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/get-started.html
- */
-public class FetchSSMParameter {
-
-    public static void main(String[] args) {
-
+public class FetchSSMParameter 
+{
+	static String param_value = null;
+	static String param_value1 = null;
+	
+    public static String Fetch_SSM_Parameter (String param_name) 
+    {
         final String USAGE = "\n" +
                 "Usage:\n" +
-                "    FetchSSMParameter <paraName>\n\n" +
+                "    Fetch_SSM_Parameter <paraName>\n\n" +
                 "Where:\n" +
-                "    paraName - the name of the parameter.\n";
-
+                "    paraName - the name of the parameter that you want to fetch from SSM parameter store.\n";
       
-        if (args.length != 1) {
+        if (param_name.length() != 1) 
+        {
             System.out.println(USAGE);
             System.exit(1);
         }
         
+        //String paraName = param_name[0]; 
+        Region region = Region.US_EAST_1;     
 
-        String paraName = args[0];
-        
-       // String paraName = "/ams/dburl";
-        Region region = Region.US_EAST_1;
         SsmClient ssmClient = SsmClient.builder()
                 .region(region)
                 .build();
 
-        getParaValue(ssmClient, paraName);
+        param_value = getParaValue(ssmClient, param_name);
         ssmClient.close();
+        
+        return param_value;
     }
 
-    public static void getParaValue(SsmClient ssmClient, String paraName) {
+    public static String getParaValue (SsmClient ssmClient, String paraName) {
 
         try {
             GetParameterRequest parameterRequest = GetParameterRequest.builder()
@@ -52,12 +47,21 @@ public class FetchSSMParameter {
                 .build();
 
             GetParameterResponse parameterResponse = ssmClient.getParameter(parameterRequest);
+            
+            try {
+            	param_value1 = parameterResponse.parameter().value();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
                         
-            System.out.println("The parameter value is "+parameterResponse.parameter().value());
+            //System.out.println("The parameter value fetched from SSM Parameter Store is :- " + parameterResponse.parameter().value());
+            System.out.println("The parameter value fetched from SSM Parameter Store is :- " + param_value1);
 
         } catch (SsmException e) {
         System.err.println(e.getMessage());
         System.exit(1);
         }
+		return param_value1;
    }
 }
