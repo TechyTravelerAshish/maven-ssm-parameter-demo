@@ -61,7 +61,7 @@ public class FetchSSMParameter
         try {
             GetParameterRequest parameterRequest = GetParameterRequest.builder()
                 .name(paraName)
-                .withDecryption(true)
+                .withDecryption(false)
                 .build();
 
             GetParameterResponse parameterResponse = ssmClient.getParameter(parameterRequest);
